@@ -81,5 +81,29 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
             return Ok(usuarioeliminado);
         }
 
+        [HttpGet]
+        [Route("GetByNombreApellido/{nombre}/{apellido}")]
+        public IActionResult GetByNombreApellido(string nombre, string apellido)
+        { 
+            var usuarioFiltrados = (from e in _blogContext.usuarios
+                                    where e.nombre.Contains(nombre) && e.apellido.Contains(apellido)
+                                    select e).ToList();
+            if (usuarioFiltrados.Count == 0) return NotFound();
+            return Ok(usuarioFiltrados);
+        }
+
+        [HttpGet]
+        [Route("GetByRol/{rolId}")]
+        public IActionResult GetByRol(int rolId) 
+        {
+            var usuarioByRol = (from e in _blogContext.usuarios
+                                where e.rolId == rolId
+                                select e).ToList();
+
+            if(usuarioByRol.Count == 0) return NotFound(); 
+            return Ok(usuarioByRol);
+        }
+
+
     }
 }
