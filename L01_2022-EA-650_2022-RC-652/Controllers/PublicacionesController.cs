@@ -42,11 +42,11 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
 
         }
         [HttpPut]
-        [Route("modificar/{publicacionId}")]
-        public IActionResult actualizarPublicacion(int publicacionId, [FromBody] publicaciones publicacionActualizar)
+        [Route("modificar/{id}")]
+        public IActionResult actualizarPublicacion(int id, [FromBody] publicaciones publicacionActualizar)
         {
             publicaciones? publicacionActual = (from e in _blogContext.publicaciones 
-                                                where e.publicacionId == publicacionId
+                                                where e.publicacionId == id
                                                 select e).FirstOrDefault();
 
             if (publicacionActual == null) { return NotFound(); }
@@ -62,10 +62,10 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
         }
 
         [HttpDelete]
-        [Route("eliminar/{publicacionId}")]
-        public IActionResult eliminarPublicacion(int publicacionId)
+        [Route("eliminar/{id}")]
+        public IActionResult eliminarPublicacion(int id)
         {
-            publicaciones? publicaciones = (from e in _blogContext.publicaciones where e.publicacionId == publicacionId select e).FirstOrDefault();
+            publicaciones? publicaciones = (from e in _blogContext.publicaciones where e.publicacionId == id select e).FirstOrDefault();
             if (publicaciones == null)
             {
                 return NotFound();
