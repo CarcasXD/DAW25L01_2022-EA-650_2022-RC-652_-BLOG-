@@ -71,7 +71,6 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
             _blogContext.comentarios.Attach(comentarioeliminado);
             _blogContext.comentarios.Remove(comentarioeliminado);
             _blogContext.SaveChanges(true);
-
             return Ok(comentarioeliminado);
         }
         [HttpGet]
