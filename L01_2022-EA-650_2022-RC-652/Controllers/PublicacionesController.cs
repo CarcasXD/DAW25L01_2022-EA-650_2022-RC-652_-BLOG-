@@ -43,14 +43,16 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
         }
         [HttpPut]
         [Route("modificar/{publicacionId}")]
-        public IActionResult actualizarPublicacion(int id, [FromBody] publicaciones publicacionActualizar)
+        public IActionResult actualizarPublicacion(int publicacionId, [FromBody] publicaciones publicacionActualizar)
         {
-            publicaciones? publicacionActual = (from e in _blogContext.publicaciones where e.publicacionId == id select e).FirstOrDefault();
+            publicaciones? publicacionActual = (from e in _blogContext.publicaciones 
+                                                where e.publicacionId == publicacionId
+                                                select e).FirstOrDefault();
 
             if (publicacionActual == null) { return NotFound(); }
 
             publicacionActual.titulo = publicacionActualizar.titulo;
-            publicacionActual.descripcion=publicacionActualizar.titulo;
+            publicacionActual.descripcion=publicacionActualizar.descripcion;
             publicacionActual.usuarioId=publicacionActualizar.usuarioId;
 
             _blogContext.Entry(publicacionActual).State = EntityState.Modified;
