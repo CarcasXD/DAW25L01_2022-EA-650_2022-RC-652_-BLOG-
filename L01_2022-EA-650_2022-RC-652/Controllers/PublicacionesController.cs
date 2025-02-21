@@ -41,5 +41,59 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
             }
 
         }
+        [HttpPut]
+        [Route("modificar/{publicacionId}")]
+        public IActionResult actualizarPublicacion(int id, [FromBody] publicaciones publicacionActualizar)
+        {
+            publicaciones? publicacionActual = (from e in _blogContext.publicaciones where e.publicacionId == id select e).FirstOrDefault();
+
+            if (publicacionActual == null) { return NotFound(); }
+
+            publicacionActual.titulo = publicacionActualizar.titulo;
+            publicacionActual.descripcion=publicacionActualizar.titulo;
+            publicacionActual.usuarioId=publicacionActualizar.usuarioId;
+
+            _blogContext.Entry(publicacionActual).State = EntityState.Modified;
+            _blogContext.SaveChanges();
+
+            return Ok(publicacionActual);
+        }
+
+        [HttpDelete]
+        [Route("eliminar/{publicacionId}")]
+        public IActionResult eliminarPublicacion(int id)
+        {
+            publicaciones? publicaciones = (from e in _blogContext.publicaciones where e.publicacionId == id select e).FirstOrDefault();
+            if (publicaciones == null)
+            {
+                return NotFound();
+            }
+
+            _blogContext.publicaciones.Attach(publicaciones);
+            _blogContext.publicaciones.Remove(publicaciones);
+            _blogContext.SaveChanges();
+            return Ok(publicaciones);
+
+        }
+
+        [HttpGet]
+        [Route("GetByUsuarioID/{id}")]
+        public IActionResult listarPublicacion(int id)
+        { 
+            var publicacion = (from p in _blogContext.publicaciones
+                               join u in _blogContext.usuarios
+                               on p.usuarioId equals u.usuarioId
+                               where p.usuarioId == id
+                               select new
+                               {
+                                   p.publicacionId,
+                                   p.titulo,
+                                   p.descripcion,
+                                   p.usuarioId,
+                               }).ToList();
+            if (publicacion == null) { return NotFound(); }
+
+            return Ok(publicacion);
+        }
     }
 }
