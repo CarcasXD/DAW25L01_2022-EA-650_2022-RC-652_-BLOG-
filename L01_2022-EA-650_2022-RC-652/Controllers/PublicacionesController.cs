@@ -95,5 +95,25 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
 
             return Ok(publicacion);
         }
+
+        [HttpGet]
+        [Route("TopPublicaciones/{topN}")]
+        public IActionResult GetTopPublicaciones(int topN)
+        {
+            var topPublicaciones = (from c in _blogContext.comentarios
+                                    join p in _blogContext.publicaciones
+                                    on c.publicacionId equals p.publicacionId
+                                    group c by new { p.publicacionId, p.titulo } into g
+                                    orderby g.Count() descending
+                                    select new
+                                    {
+                                        g.Key.publicacionId,
+                                        Titulo = g.Key.titulo,
+                                        CantidadComentarios = g.Count(),
+                                    }).Take(topN).ToList();
+
+            if (topPublicaciones.Count == 0) { return NotFound(); } 
+            return Ok(topPublicaciones);
+        }
     }
 }
