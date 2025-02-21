@@ -57,7 +57,7 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
             usuarioActual.rolId = usuarioModificar.rolId;
             usuarioActual.clave = usuarioModificar.clave;
             usuarioActual.nombre = usuarioModificar.nombre;
-            usuarioActual.apellido = usuarioActual.apellido;
+            usuarioActual.apellido = usuarioModificar.apellido;
 
             _blogContext.Entry(usuarioActual).State = EntityState.Modified;
             _blogContext.SaveChanges();
