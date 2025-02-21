@@ -63,9 +63,9 @@ namespace L01_2022_EA_650_2022_RC_652.Controllers
 
         [HttpDelete]
         [Route("eliminar/{publicacionId}")]
-        public IActionResult eliminarPublicacion(int id)
+        public IActionResult eliminarPublicacion(int publicacionId)
         {
-            publicaciones? publicaciones = (from e in _blogContext.publicaciones where e.publicacionId == id select e).FirstOrDefault();
+            publicaciones? publicaciones = (from e in _blogContext.publicaciones where e.publicacionId == publicacionId select e).FirstOrDefault();
             if (publicaciones == null)
             {
                 return NotFound();
